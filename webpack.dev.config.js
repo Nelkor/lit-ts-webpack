@@ -1,6 +1,7 @@
 const path = require('path');
 
 const HtmlPlugin = require('html-webpack-plugin');
+const MiniCssPlugin = require('mini-css-extract-plugin');
 
 const fullPath = end => path.resolve(__dirname, end);
 
@@ -24,8 +25,10 @@ module.exports = {
     devServer: {
         port: 8080
     },
+    devtool: 'inline-source-map',
     plugins: [
         new HtmlPlugin(htmlPluginConfig),
+        new MiniCssPlugin(),
     ],
     module: {
         rules: [
@@ -41,7 +44,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ['css-loader'],
+                use: [
+                    MiniCssPlugin.loader,
+                    'css-loader',
+                ],
             },
             {
                 test: /\.(png|jpg|svg)$/,
